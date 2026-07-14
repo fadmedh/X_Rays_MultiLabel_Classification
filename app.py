@@ -14,7 +14,7 @@ st.set_page_config(
 # ----------------- CUSTOM CSS THEME -----------------
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght=300;400;500;600;700&display=swap');
     
     html, body {
         font-family: 'Outfit', sans-serif;
@@ -161,7 +161,7 @@ with col_right:
                 for label, prob in zip(LABELS, preds): draw_custom_progress_bar(label, prob)
             st.markdown('</div>', unsafe_allow_html=True)
             
-            # Clinical Alerts Section - FIXED WITH EXPLICIT COLORS
+            # Clinical Alerts Section - CUSTOM STYLED HTML BOXES
             st.markdown('<div class="dashboard-card"><div class="card-title">⚠️ Clinical Alerts</div>', unsafe_allow_html=True)
             
             high_risk = [(l, p) for l, p in zip(LABELS, preds) if p >= 0.50]
@@ -169,15 +169,12 @@ with col_right:
             
             if high_risk:
                 for l, p in high_risk: 
-                    st.error(f"🚨 **High Risk:** {l} detected ({p*100:.1f}%). Urgent review recommended.")
-                    st.markdown(f"<span style='color:#721c24; font-weight:600;'>🚨 **High Risk:** {l} detected ({p*100:.1f}%). Urgent review recommended.</span>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='background-color: #f8d7da; color: #721c24; padding: 12px; border-radius: 8px; border-left: 5px solid #dc3545; margin-bottom: 10px; font-weight: 500;'>🚨 <b>High Risk:</b> {l} detected ({p*100:.1f}%). Urgent review recommended.</div>", unsafe_allow_html=True)
             if moderate_risk:
                 for l, p in moderate_risk: 
-                    st.warning(f"⚠️ **Monitor:** {l} indicates borderline probability ({p*100:.1f}%). Clinical correlation advised.")
-                    st.markdown(f"<span style='color:#856404; font-weight:600;'>⚠️ **Monitor:** {l} indicates borderline probability ({p*100:.1f}%). Clinical correlation advised.</span>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='background-color: #fff3cd; color: #856404; padding: 12px; border-radius: 8px; border-left: 5px solid #ffc107; margin-bottom: 10px; font-weight: 500;'>⚠️ <b>Monitor:</b> {l} indicates borderline probability ({p*100:.1f}%). Clinical correlation advised.</div>", unsafe_allow_html=True)
             if not high_risk and not moderate_risk:
-                st.success("✅ **No major findings.** Clinically correlate if patient is symptomatic.")
-                st.markdown("<span style='color:#155724; font-weight:600;'>✅ **No major findings.** Clinically correlate if patient is symptomatic.</span>", unsafe_allow_html=True)
+                st.markdown("<div style='background-color: #d4edda; color: #155724; padding: 12px; border-radius: 8px; border-left: 5px solid #28a745; margin-bottom: 10px; font-weight: 500;'>✅ <b>No major findings.</b> Clinically correlate if patient is symptomatic.</div>", unsafe_allow_html=True)
             
             st.markdown("<br>", unsafe_allow_html=True)
             st.caption("Disclaimer: AI screening aid only. Does not replace radiologist evaluation.")
